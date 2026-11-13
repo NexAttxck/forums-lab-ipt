@@ -1,0 +1,19 @@
+<div class="comment" id="comment-{{id}}" style="margin-left:{{indent}}px"{{#hasChildren}} data-replies="replies-{{id}}"{{/hasChildren}}>
+  <div class="head">
+    <img class="avatar" src="/default-avatar.svg" alt="">
+    <strong>{{username}}</strong>
+    <span class="meta">depth {{depth}} &middot; {{created}} UTC</span>
+  </div>
+  <p class="body">{{body}}</p>
+  {{#loggedIn}}
+  <details><summary>Reply</summary>
+    <form method="post" action="/discussions/{{did}}/comments">
+      <input type="hidden" name="csrf" value="{{csrf}}">
+      <input type="hidden" name="parent_id" value="{{id}}">
+      <textarea name="body" rows="2" maxlength="2000" required></textarea>
+      <button>Reply</button>
+    </form>
+  </details>
+  {{/loggedIn}}
+  {{#hasChildren}}<div id="replies-{{id}}">{{#children}}{{> comment}}{{/children}}</div>{{/hasChildren}}
+</div>

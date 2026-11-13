@@ -1,0 +1,14 @@
+<h1>{{d.title}}</h1>
+<p>{{d.body}}</p>
+<p class="meta">Started by {{d.username}}</p>
+{{#error}}<p class="error">{{error}}</p>{{/error}}
+{{#comments}}{{> comment}}{{/comments}}
+<h2>Post a comment</h2>
+{{#loggedIn}}
+<form method="post" action="/discussions/{{did}}/comments">
+  <input type="hidden" name="csrf" value="{{csrf}}">
+  <p><textarea name="body" rows="3" maxlength="2000" required></textarea></p>
+  <button>Post</button>
+</form>
+{{/loggedIn}}
+{{^loggedIn}}<p><a href="/login">Log in</a> to post.</p>{{/loggedIn}}

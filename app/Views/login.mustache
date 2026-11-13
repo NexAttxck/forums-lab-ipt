@@ -1,0 +1,8 @@
+<h1>Log in</h1>
+{{#error}}<p class="error">{{error}}</p>{{/error}}
+<form method="post" action="/login">
+  <input type="hidden" name="csrf" value="{{csrf}}">
+  <p><label>Username <input name="username" value="{{username}}" required></label></p>
+  <p><label>Password <input type="password" name="password" required></label></p>
+  <button>Log in</button>
+</form>
