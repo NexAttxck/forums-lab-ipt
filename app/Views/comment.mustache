@@ -7,9 +7,8 @@
   <p class="body">{{body}}</p>
   {{#loggedIn}}
   <details><summary>Reply</summary>
-    <form method="post" action="/discussions/{{did}}/comments">
+    <form method="post" action="/discussions/{{did}}/comments/{{id}}/replies">
       <input type="hidden" name="csrf" value="{{csrf}}">
-      <input type="hidden" name="parent_id" value="{{id}}">
       <textarea name="body" rows="2" maxlength="2000" required></textarea>
       <button>Reply</button>
     </form>

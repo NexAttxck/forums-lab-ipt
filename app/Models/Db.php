@@ -10,7 +10,8 @@ class Db
     public static function pdo(): PDO
     {
         if (!self::$pdo) {
-            $c = require __DIR__ . '/../../config/config.php';
+            $dir = __DIR__ . '/../../config/';
+            $c = require (is_file($dir . 'database.php') ? $dir . 'database.php' : $dir . 'database.example.php');
             self::$pdo = new PDO(
                 "mysql:host={$c['host']};dbname={$c['name']};charset=utf8mb4",
                 $c['user'], $c['pass'],

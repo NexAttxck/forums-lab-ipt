@@ -8,6 +8,11 @@ class DiscussionController
 {
     const MAX_WALK = 50; // traversal limit for the renderer
 
+    public function index(): void
+    {
+        View::render('home', ['discussions' => Discussion::all()]);
+    }
+
     public function show(string $id): void
     {
         $did = $this->id($id);
@@ -36,11 +41,11 @@ class DiscussionController
         ]);
     }
 
-    public function store(string $id): void
+    public function store(string $id, ?string $rawParent = null): void
     {
         $did = $this->id($id);
         if (!Auth::userId()) {
-            View::render('error', ['title' => 'Login required', 'message' => 'You must log in to post.'], 401);
+            header('Location: /login', true, 302);
             return;
         }
         if (!Auth::csrfOk()) {
@@ -57,8 +62,8 @@ class DiscussionController
         $err = null;
         if ($body === '' || mb_strlen($body) > 2000) {
             $err = 'Comment must be 1 to 2000 characters.';
-        } elseif (($_POST['parent_id'] ?? '') !== '') {
-            $p = ctype_digit((string) $_POST['parent_id']) ? Comment::find((int) $_POST['parent_id']) : null;
+        } elseif ($rawParent !== null) {
+            $p = ctype_digit($rawParent) ? Comment::find((int) $rawParent) : null;
             if (!$p || (int) $p['discussion_id'] !== $did) {
                 $err = 'Parent comment is not in this discussion.';
             } elseif (Comment::depth((int) $p['id']) + 1 > Comment::MAX_DEPTH) {
