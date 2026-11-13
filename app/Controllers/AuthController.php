@@ -34,7 +34,7 @@ class AuthController
         $err = null;
         if (!preg_match('/^[A-Za-z0-9_]{3,30}$/', $name)) $err = 'Username: 3 to 30 letters, numbers or underscore.';
         elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 255) $err = 'Enter a valid email.';
-        elseif (strlen($pass) < 8) $err = 'Password must be at least 8 characters.';
+        elseif (strlen($pass) < 8 || strlen($pass) > 72) $err = 'Password must be 8 to 72 characters.';
         elseif (User::exists($name, $email)) $err = 'Username or email is already taken.';
 
         if ($err) {
